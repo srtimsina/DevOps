@@ -17,8 +17,8 @@ w
 EOF
 sudo pvcreate $ROOT_DISK_DEVICE_PART
 sudo vgcreate vg0 $ROOT_DISK_DEVICE_PART
-sudo lvcreate -L +4G vg0
-sudo mkfs -t ext4 /dev/vg0/lvol0
+sudo lvcreate -L +4G vg0 -n lv0
+sudo mkfs -t ext4 /dev/vg0/lv0
 sudo mkdir /data
 str=$(blkid | grep vg0 | awk '{print $2}')
 str1="$str  /data   ext4    defaults    0   2"
@@ -43,11 +43,11 @@ w
 EOF
 sudo pvcreate /dev/sdc2
 sudo vgextend vg0 /dev/sdc2
-sudo lvextend -L +5G /dev/vg0/lvol0
-sudo lvdisplay /dev/vg0/lvol0
+sudo lvextend -L +5G /dev/vg0/lv0
+sudo lvdisplay /dev/vg0/lv0
 sudo df -h
-sudo blkid /dev/vg0/lvol0
-sudo resize2fs /dev/vg0/lvol0
+sudo blkid /dev/vg0/lv0
+sudo resize2fs /dev/vg0/lv0
 sudo df -h
 echo "Disk has been resized"
 echo "Run vagrant ssh to login the vm and check disk status"
