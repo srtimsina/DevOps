@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Add an extra 10GB disk and create LVM and expand disk
+# Run Vagrant up with the following command
+#VAGRANT_EXPERIMENTAL=disks vagrant up
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+
+  config.vm.disk :disk, size: "10GB", name: "extra_storage"
+
+  #config.vm.network "private_network", ip: "192.168.56.2"
+  
+  #config.vm.synced_folder "../vagrantDisk", "/vagrant"
+
+   config.vm.provider "virtualbox" do |vb|
+     vb.memory = "1024"
+     vb.cpus = 2
+   end
+   #Ubuntu focal default disk size is 40GB
+   #config.disksize.size = '60GB'
+   config.vm.provision "shell", path: "resizeDisk.sh", keep_color: "true"
+end
