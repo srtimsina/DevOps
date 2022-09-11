@@ -1,0 +1,20 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+unless Vagrant.has_plugin?("vagrant-disksize")
+  raise 'vagrant-disksize is not installed!'
+end
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/centos8"
+
+  #config.vm.network "private_network", ip: "192.168.56.2"
+  
+  #config.vm.synced_folder "../Centos8expandingLVM", "/vagrant"
+
+   config.vm.provider "virtualbox" do |vb|
+     vb.memory = "1024"
+     vb.cpus = 2
+   end
+   #Expand default 128GB disk to 140GB
+   config.disksize.size = '140GB'
+   config.vm.provision "shell", path: "resizeDisk.sh", keep_color: "true"
+end
