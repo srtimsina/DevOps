@@ -1,0 +1,17 @@
+unless Vagrant.has_plugin?("vagrant-disksize")
+    raise 'vagrant-disksize is not installed!'
+  end
+Vagrant.configure("2") do |config|
+    config.vm.hostname = "UbuntuVM"
+    config.vm.box = "bento/ubuntu-18.04"
+    config.vm.provider "virtualbox" do |vb|
+      vb.name = "UbuntuLab"
+      vb.memory = 1024
+      vb.cpus = 1
+    end     
+      config.vm.define :"UbuntuVM" do |t|
+    end
+    # Expand disk from 64GB to 84GB
+    config.disksize.size = "84GB"
+    config.vm.provision "shell", path: "resizeDisk.sh", keep_color: "true"
+  end
