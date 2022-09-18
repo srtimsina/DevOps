@@ -68,6 +68,8 @@ Vagrant.configure("2") do |config|
       sudo apt-get install \
     ca-certificates \
     curl \
+    zip \
+    unzip \
     gnupg \
     lsb-release -y
 sudo mkdir -p /etc/apt/keyrings
@@ -79,6 +81,13 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose -y
 sudo service docker start
 cd /opt/docker
+wget https://www.tooplate.com/zip-templates/2129_crispy_kitchen.zip
+unzip 2129_crispy_kitchen.zip
+cd 2129_crispy_kitchen
+tar -czvf crispykitchen.tar.gz *
+cd ..
+mv 2129_crispy_kitchen/crispykitchen.tar.gz .
+rm -rf 2129_crispy_kitchen 2129_crispy_kitchen.zip
 docker build -t local-registry/crispykitchen:1 .
 docker run -it -d --name crispykitchen -p 8080:80 local-registry/crispykitchen:1
    SHELL

@@ -7,4 +7,4 @@ CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 EXPOSE 80
 WORKDIR /var/www/html
 VOLUME /var/log/apache2
-ADD crispykitchen/* /var/www/html/
+ADD crispykitchen.tar.gz /var/www/html/
