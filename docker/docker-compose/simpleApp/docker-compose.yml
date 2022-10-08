@@ -4,9 +4,17 @@ services:
     build: .
     ports:
       - "8000:5000"
+    networks:
+      - testnetwork
     volumes:
-      - .:/code
+      - testvolume:/code
     environment:
       FLASK_ENV: development
   redis:
     image: "redis:alpine"
+    networks:
+      - testnetwork
+networks:
+  testnetwork:
+volumes:
+  testvolume:
