@@ -2,23 +2,23 @@ pipeline {
     agent any
     stages {
         stage('UnitTest') {
-            step {
+            steps {
                 echo "Hello, we are learning Jekins pipeline as a code"
                 echo "Running Unitest"
             }
         }
         stage('Build') {
-            step {
+            steps {
                 echo "Building the code"
             }
         }
         stage('DeployStaging') {
-            step {
+            steps {
                 echo "Deploying to staging env"
             }
         }  
         stage('DeployProd') {
-            step {
+            steps {
                 echo "Deploying to prod env"
             }
         }    
