@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Deploy Staging Env'){
             steps{
-                build job: 'deployTomcatApp'
+                build job: 'deployTomcatAppcloned'
 
             }
             
