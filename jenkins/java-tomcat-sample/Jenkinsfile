@@ -14,18 +14,12 @@ pipeline {
                 }
             }
         }
-        agent {
-        label 'testnode'
-        }
         stage('Deploy Staging Env'){
             steps{
                 build job: 'deployTomcatAppcloned'
 
             }
             
-        }
-        agent {
-        label 'testnode'
         }
         stage('Deploy Prod'){
             steps{
