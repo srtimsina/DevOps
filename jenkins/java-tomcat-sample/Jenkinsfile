@@ -1,5 +1,7 @@
 pipeline {
-    agent builtinNode
+    agent {
+        label builtinNode
+    }
     stages {
         stage('Build Application') {
             steps {
