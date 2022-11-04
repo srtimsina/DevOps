@@ -14,9 +14,6 @@ pipeline {
                 }
             }
         }
-        agent {
-        label 'testnode'
-        }
         stage('Create Tomcat Image') {
             steps {
                 sh '''
@@ -25,11 +22,6 @@ pipeline {
                 docker build -t localtomcatimg:$BUILD_NUMBER .
                 cd $original_pwd
                 sh '''
-            }
-        }
-        stage('Deploy Staging Env'){
-            steps{
-                build job: 'deployTomcatApPipeline'
             }
         }
     }
