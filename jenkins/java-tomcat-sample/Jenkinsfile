@@ -14,21 +14,4 @@ pipeline {
                 }
             }
         }
-        stage('Deploy Staging Env'){
-            steps{
-                build job: 'deployTomcatAppcloned'
-
-            }
-            
-        }
-        stage('Deploy Prod'){
-            steps{
-                timeout(time:2, unit:'DAYS'){
-                    input message:'Approve PRODUCTION Deployment?'
-                }
-                build job: 'Deploy_Application_Prod_Env'
-            }
-        }
-    
-    }
 }
