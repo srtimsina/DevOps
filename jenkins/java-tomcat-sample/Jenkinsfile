@@ -14,6 +14,9 @@ pipeline {
                 }
             }
         }
+        agent {
+        label testNode
+        }
         stage('Create Tomcat Image') {
             steps {
                 sh '''
