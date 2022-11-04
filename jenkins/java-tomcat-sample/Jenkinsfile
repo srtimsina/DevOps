@@ -15,6 +15,9 @@ pipeline {
             }
         }
         stage('Create Tomcat Image') {
+            agent {
+                label 'testnode'
+            }
             steps {
                 sh '''
                 original_pwd=$(pwd -P)
