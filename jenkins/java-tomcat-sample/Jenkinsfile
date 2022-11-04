@@ -16,10 +16,12 @@ pipeline {
         }
         stage('Create Tomcat Image') {
             steps {
-                original_pwd=${pwd -P}
+                sh '''
+                original_pwd=$(pwd -P)
                 cd jenkins/java-tomcat-sample
-                sh 'docker build -t localtomcatimg:$BUILD_NUMBER .'
+                docker build -t localtomcatimg:$BUILD_NUMBER .
                 cd $original_pwd
+                sh '''
             }
         }
         stage('Deploy Staging Env'){
