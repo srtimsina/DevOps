@@ -14,6 +14,14 @@ pipeline {
                 }
             }
         }
+        stage('Create Tomcat Image') {
+            steps {
+                original_pwd=${pwd -P}
+                cd jenkins/java-tomcat-sample
+                sh 'docker build -t localtomcatimg:$BUILD_NUMBER .'
+                cd $original_pwd
+            }
+        }
         stage('Deploy Staging Env'){
             steps{
                 build job: 'deployTomcatApPipeline'
