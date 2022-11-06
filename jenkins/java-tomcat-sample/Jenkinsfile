@@ -21,7 +21,12 @@ pipeline {
             steps {
                 copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: env.JOB_NAME, selector: specific(env.BUILD_NUMBER)
                 echo "Building docker image"
-                sh 'docker build -t localtomcatimg:$BUILD_NUMBER .'
+                sh '''
+                original_pwd=$(pwd -P)
+                cd jenkins/java-tomcat-sample
+                docker build -t localtomcatimg:$BUILD_NUMBER .
+                cd $original_pwd
+                sh '''
             }
         }
     }
