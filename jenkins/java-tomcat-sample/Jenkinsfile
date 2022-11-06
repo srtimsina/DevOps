@@ -29,7 +29,6 @@ pipeline {
                 sh '''
             }
         }
-    }
         stage('Deploy to Stagging Env') {
             agent {
                 label 'testnode'
