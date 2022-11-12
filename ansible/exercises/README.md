@@ -1,1 +1,0 @@
-# Examples for practicing Ansible

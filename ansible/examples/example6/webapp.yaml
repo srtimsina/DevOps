@@ -1,0 +1,60 @@
+---
+- name: Setup WebServer
+  hosts: websrvgrp
+  become: yes
+  tasks:
+    - name: Install Apache2
+      apt:
+        name: apache2
+        state: present
+    - name: Start & Enable apache2
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+    - name: Copy Files
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+- name: Setup DB server
+  hosts: dbsrvgrp
+  become: yes
+  vars:
+    dbname: devopsdb
+    dbuser: devops
+    dbpass: admin123
+  tasks:
+    - debug:
+        var: dbname
+    - debug:
+        msg: "Value for dbname is {{dbname}}"
+    - debug:
+        msg: "Value for dbuser is {{dbuser}}"
+
+    - name: Install MySQL server
+      apt:
+        name: mariadb-server
+        state: present
+    - name: Install Python MySQL
+      apt:
+        name: python3-pymysql
+        state: present
+    - name: Start & Enable mariadb service
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+# Create new database  with name 'devopsmysql'
+    - name: Create new database
+      mysql_db:
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        name: "{{dbname}}"
+        state: present
+# Create database user with name 'devops' with all database privileges
+    - name: Create database user
+      mysql_user:
+       login_unix_socket: /var/run/mysqld/mysqld.sock
+       name: "{{dbuser}}"
+       password: "{{dbpass}}"
+       priv: '*.*:ALL'
+       state: present

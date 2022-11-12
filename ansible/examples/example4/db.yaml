@@ -1,0 +1,32 @@
+---
+- name: Setup DB server
+  hosts: dbsrvgrp
+  become: yes
+  tasks:
+    - name: Install MySQL server
+      apt:
+        name: mariadb-server
+        state: present
+    - name: Install Python MySQL
+      apt:
+        name: python3-pymysql
+        state: present
+    - name: Start & Enable mariadb service
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+# Create new database  with name 'devopsmysql'
+    - name: Create new database
+      mysql_db:
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        name: devopsmysql
+        state: present
+# Create database user with name 'devops' with all database privileges
+    - name: Create database user
+      mysql_user:
+       login_unix_socket: /var/run/mysqld/mysqld.sock
+       name: devops
+       password: 12345
+       priv: '*.*:ALL'
+       state: present
