@@ -1,0 +1,1 @@
+# Ansible Inventory based variables

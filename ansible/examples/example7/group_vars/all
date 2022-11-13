@@ -1,0 +1,3 @@
+dbuser: testadmin
+dbpass: admin123
+dbname: redhat
