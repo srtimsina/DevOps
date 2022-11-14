@@ -5,15 +5,27 @@
   tasks:
     - name: Install NTP server on Ubuntu
       apt:
-        name: chrony
+        name: "{{item}}"
         state: present
+        update_cache: yes
       when: ansible_distribution == "Ubuntu"
+      loop:
+       - chrony
+       - wget
+       - git
+       - zip
+       - unzip
     - name: Install NTP server on CentOS
       yum:
-        name: chrony
+        name: "{{item}}"
         state: present
       when: ansible_distribution == "CentOS"
-
+      loop:
+       - chrony
+       - wget
+       - git
+       - zip
+       - unzip
     - name: Start and Enable chronyd service on Debian
       service:
        name: chronyd
@@ -27,3 +39,19 @@
        state: started
        enabled: yes
       when: ansible_distribution == "CentOS"
+
+    - name: Add group
+      group:
+       name: devops
+       state: present
+
+    - name: Add users
+      user:
+       name: "{{item}}"
+       state: present
+       groups: devops
+      loop:
+        - user1
+        - user2
+        - user3
+        - user4
