@@ -1,0 +1,100 @@
+---
+- name: Provision server
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install NTP server on Ubuntu
+      apt:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+      loop:
+       - chrony
+       - wget
+       - git
+       - zip
+       - unzip
+    - name: Install NTP server on CentOS
+      yum:
+        name: "{{item}}"
+        state: present
+      when: ansible_distribution == "CentOS"
+      loop:
+       - chrony
+       - wget
+       - git
+       - zip
+       - unzip
+    - name: Start and Enable chronyd service on Debian
+      service:
+       name: chronyd
+       state: started
+       enabled: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Start and Enable chronyd service on CentOS
+      service:
+       name: chronyd
+       state: started
+       enabled: yes
+      when: ansible_distribution == "CentOS"
+
+    - name: Add group
+      group:
+       name: devops
+       state: present
+
+    - name: Add users
+      user:
+       name: "{{item}}"
+       state: present
+       groups: devops
+      loop: "{{usernames}}"
+
+    - name: Banner file /etc/motd
+      copy:
+        content: "This {{ansible_distribution}} is managed by Ansible \n"
+        dest: /etc/motd
+
+    - name: "Deploy chrony conf file for Redhat"
+      template:
+       src: templates/chrony-redhat.conf.j2
+       dest: /etc/chrony.conf
+      when:
+       ansible_os_family == "RedHat"
+
+    - name: "Deploy chrony conf file for Debian"
+      template:
+       src: templates/chrony-debian.conf.j2
+       dest: /etc/chrony/chrony.conf
+      when:
+       ansible_os_family == "Debian"
+
+    - name: Restart chrony on CentOS
+      service:
+       name: chronyd
+       state: restarted
+       enabled: yes
+       when: ansible_os_family == "RedHat"
+        
+    - name: Restart chrony on Debian
+      service:
+       name: chronyd
+       state: restarted
+       enabled: yes
+       when: ansible_os_family == "Debian"
+
+    - name: "Update sshd_conf"
+      become: yes
+      become_user: root
+      lineinfile:
+       path: /etc/ssh/sshd_config
+       regexp: "#Banner none"
+       line: "Banner /etc/motd"
+       state: present
+    - name: "Restart sshd service"
+      service:
+       name: sshd
+       state: restarted
+       enabled: yes
