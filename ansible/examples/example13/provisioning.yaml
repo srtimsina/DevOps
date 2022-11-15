@@ -65,32 +65,32 @@
        regexp: "#Banner none"
        line: "Banner /etc/motd"
        state: present
-    - name: Restart sshd service on Ubuntu
-      service:
-       name: sshd
-       state: restarted
-       enabled: yes
-      when: ansible_distribution == "Ubuntu"
-
-    - name: Restart sshd service on CentOS
-      service:
-       name: sshd
-       state: restarted
-       enabled: yes
-      when: ansible_distribution == "CentOS"
+      notify:
+        Restart sshd service
 
     - name: Deploy chrony config file for CentOS
       template:
        src: templates/chrony-redhat.conf.j2
        dest: /etc/chrony.conf
       when: ansible_os_family == "RedHat"
+      notify:
+        Restart chronyd service on CentOS
 
     - name: Deploy chrony config file for Ubuntu
       template:
        src: templates/chrony-debian.conf.j2
        dest: /etc/chrony/chrony.conf
       when: ansible_os_family == "Debian"
+      notify:
+        Restart chronyd service on Debian
+    
+    - name: Directory for files
+      file:
+       path: /opt/tmpdir
+       state: directory
+       mode: 0755
 
+  handlers:  
     - name: Restart chronyd service on Debian
       service:
        name: chronyd
@@ -104,8 +104,9 @@
        state: restarted
        enabled: yes
       when: ansible_distribution == "CentOS"
-    - name: Directory for files
-      file:
-       path: /opt/tmpdir
-       state: directory
-       mode: 0755
+
+    - name: Restart sshd service
+      service:
+       name: sshd
+       state: restarted
+       enabled: yes

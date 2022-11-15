@@ -1,0 +1,19 @@
+- name: Restart chronyd service on Debian
+  service:
+   name: chronyd
+   state: restarted
+   enabled: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: Restart chronyd service on CentOS
+  service:
+   name: chronyd
+   state: restarted
+   enabled: yes
+  when: ansible_distribution == "CentOS"
+
+- name: Restart sshd service
+  service:
+   name: sshd
+   state: restarted
+   enabled: yes

@@ -1,0 +1,93 @@
+---
+# tasks file for post-install
+- name: Install NTP server on Ubuntu
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu"
+  loop:
+   - chrony
+   - wget
+   - git
+   - zip
+   - unzip
+- name: Install NTP server on CentOS
+  yum:
+    name: "{{item}}"
+    state: present
+  when: ansible_distribution == "CentOS"
+  loop:
+   - chrony
+   - wget
+   - git
+   - zip
+   - unzip
+- name: Start and Enable chronyd service on Debian
+  service:
+   name: chronyd
+   state: started
+   enabled: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: Start and Enable chronyd service on CentOS
+  service:
+   name: chronyd
+   state: started
+   enabled: yes
+  when: ansible_distribution == "CentOS"
+
+- name: Add group
+  group:
+   name: devops
+   state: present
+
+- name: Add users
+  user:
+   name: "{{item}}"
+   state: present
+   groups: devops
+  loop: "{{usernames}}"
+
+- name: Add banner file
+  copy:
+   content: "This {{ansible_distribution}} is managed by Ansible \n"
+   dest: /etc/motd
+
+- name: "Update sshd config file"
+  become: yes
+  become_user: root
+  lineinfile:
+   path: /etc/ssh/sshd_config
+   regexp: "#Banner none"
+   line: "Banner /etc/motd"
+   state: present
+  notify:
+    Restart sshd service
+
+- name: Deploy chrony config file for CentOS
+  template:
+   src: chrony-redhat.conf.j2
+   dest: "{{path}}"
+  when: ansible_os_family == "RedHat"
+  notify:
+    Restart chronyd service on CentOS
+
+- name: Deploy chrony config file for Ubuntu
+  template:
+   src: chrony-debian.conf.j2
+   dest: /etc/chrony/chrony.conf
+  when: ansible_os_family == "Debian"
+  notify:
+    Restart chronyd service on Debian
+
+- name: Directory for files
+  file:
+   path: /opt/tmpdir
+   state: directory
+   mode: 0755
+
+- name: Copy the data file
+  copy:
+   src: test.txt
+   dest: /opt/test.txt
