@@ -1,0 +1,1 @@
+This is the file deployed by Ansible for testing copy module
