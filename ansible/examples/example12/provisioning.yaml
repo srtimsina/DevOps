@@ -51,41 +51,13 @@
        state: present
        groups: devops
       loop: "{{usernames}}"
-
-    - name: Banner file /etc/motd
+      
+    - name: Add banner file
       copy:
-        content: "This {{ansible_distribution}} is managed by Ansible \n"
-        dest: /etc/motd
+       content: "This {{ansible_distribution}} is managed by Ansible \n"
+       dest: /etc/motd
 
-    - name: "Deploy chrony conf file for Redhat"
-      template:
-       src: templates/chrony-redhat.conf.j2
-       dest: /etc/chrony.conf
-      when:
-       ansible_os_family == "RedHat"
-
-    - name: "Deploy chrony conf file for Debian"
-      template:
-       src: templates/chrony-debian.conf.j2
-       dest: /etc/chrony/chrony.conf
-      when:
-       ansible_os_family == "Debian"
-
-    - name: Restart chrony on CentOS
-      service:
-       name: chronyd
-       state: restarted
-       enabled: yes
-       when: ansible_os_family == "RedHat"
-        
-    - name: Restart chrony on Debian
-      service:
-       name: chronyd
-       state: restarted
-       enabled: yes
-       when: ansible_os_family == "Debian"
-
-    - name: "Update sshd_conf"
+    - name: "Update sshd config file"
       become: yes
       become_user: root
       lineinfile:
@@ -93,8 +65,47 @@
        regexp: "#Banner none"
        line: "Banner /etc/motd"
        state: present
-    - name: "Restart sshd service"
+    - name: Restart sshd service on Ubuntu
       service:
        name: sshd
        state: restarted
        enabled: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Restart sshd service on CentOS
+      service:
+       name: sshd
+       state: restarted
+       enabled: yes
+      when: ansible_distribution == "CentOS"
+
+    - name: Deploy chrony config file for CentOS
+      template:
+       src: templates/chrony-redhat.conf.j2
+       dest: /etc/chrony.conf
+      when: ansible_os_family == "RedHat"
+
+    - name: Deploy chrony config file for Ubuntu
+      template:
+       src: templates/chrony-debian.conf.j2
+       dest: /etc/chrony/chrony.conf
+      when: ansible_os_family == "Debian"
+
+    - name: Restart chronyd service on Debian
+      service:
+       name: chronyd
+       state: restarted
+       enabled: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Restart chronyd service on CentOS
+      service:
+       name: chronyd
+       state: restarted
+       enabled: yes
+      when: ansible_distribution == "CentOS"
+    - name: Directory for files
+      file:
+       path: /opt/tmpdir
+       state: directory
+       mode: 0755
