@@ -1,0 +1,28 @@
+version: 0.0
+os: linux
+files:
+  - source: /index.html
+    destination: /var/www/html/
+  - source: /devops.png
+    destination: /var/www/html/
+  - source: /devops_text.png
+    destination: /var/www/html/
+  - source: /favicon.ico
+    destination: /var/www/html/
+  - source: /favicon-16x16.png
+    destination: /var/www/html/
+  - source: /favicon-32x32.png
+    destination: /var/www/html/
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies
+      timeout: 300
+      runas: root
+    - location: scripts/start_server
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 300
+      runas: root
+
