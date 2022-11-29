@@ -1,17 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /index.html
-    destination: /var/www/html/
-  - source: /devops.png
-    destination: /var/www/html/
-  - source: /devops_text.png
-    destination: /var/www/html/
-  - source: /favicon.ico
-    destination: /var/www/html/
-  - source: /favicon-16x16.png
-    destination: /var/www/html/
-  - source: /favicon-32x32.png
+  - source: /
     destination: /var/www/html/
 hooks:
   BeforeInstall:
