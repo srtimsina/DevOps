@@ -1,5 +1,5 @@
 # Steps to setup kubernetes cluster
-## Make sure, overlay network and bridge netfilter turned on
+### Make sure, overlay network and bridge netfilter turned on
 ```bash
     cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
     overlay
@@ -9,18 +9,18 @@
     sudo modprobe overlay 
     sudo modprobe br_netfilter
 ```
-# Make sure swap is turned off
+### Make sure swap is turned off
 
-## immediately turn off swap - until reboot
+### Immediately turn off swap - until reboot
 ```bash
   sudo swapoff -a 
 ```
-## turn off swap after restart
+### Turn off swap after restart
 ```bash
    sudo sed -i 's|^/swap.img|#/swap.img|g' /etc/fstab
 ```
 
-## You need to make sure kubernetes can do IPv4 forwarding.
+### You need to make sure kubernetes can do IPv4 forwarding.
 
 ```bash
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
@@ -29,11 +29,12 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.ipv4.ip_forward                 = 1
 EOF
 ```
-# reboot sysctl
-bash```
+### Reboot sysctl
+```bash
  sudo sysctl --system
 ```
-# Setup docker engine as container runtime
+
+### Setup docker engine as container runtime
 [Official Documentation](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker) on setting up [docker](https://docs.docker.com/engine/install/ubuntu/)
 ```bash
     sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -56,15 +57,15 @@ bash```
 
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 ```
-# Setting up cri-dockerd
+### Setting up cri-dockerd
 Official documentation [docker](https://github.com/Mirantis/cri-dockerd)
 
-## Clone cri-dockerd repo
+### Clone cri-dockerd repo
 ```bash
     git clone https://github.com/Mirantis/cri-dockerd.git
 ```
 
-## Run following commands as root
+### Run following commands as root
 ```bash
     ###Install GO###
     wget https://storage.googleapis.com/golang/getgo/installer_linux
@@ -96,48 +97,48 @@ Official documentation [docker](https://kubernetes.io/docs/setup/production-envi
     sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
-## Now run the following on control plane only
+#### Now run the following on control plane only
 ```bash
     sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --cri-socket unix:///var/run/cri-dockerd.sock
 ```
-## run following as a normal user
+#### Run following as a normal user
 ```bash
     mkdir -p $HOME/.kube
     sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
     sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
-## As a normal user to list nodes
+#### As a normal user to list nodes
 ```bash
     kubectl get nodes
 ```
-## Install calico
+#### Install calico
 ```bash
     kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 ```
-## As a normal user to list nodes
+#### As a normal user to list nodes
 ```bash
     kubectl get nodes
 ```
 
-## Run the below command on the control plane to print join command
+#### Run the below command on the control plane to print join command
 ```bash
 kubeadm token create --print-join-command
 ```
-## On the worker nodes, run the join command, add cri-socket in the join command "--cri-socket unix:///var/run/cri-dockerd.sock" to join the worker node to k8s cluster.
+### On the worker nodes, run the join command, add cri-socket in the join command "--cri-socket unix:///var/run/cri-dockerd.sock" to join the worker node to k8s cluster.
 
-# After sometimes, on the control plane
-## As a normal user to list nodes
+### After sometimes, on the control plane
+#### As a normal user to list nodes
 ```bash
     kubectl get nodes
 ```
-## To describe node
+### To describe node
 ```bash
     kubectl describe node {node_name}
 ```
 
 
-# To setup docker containerd as the container runtime.
-## Follow the below steps.
+### To setup docker containerd as the container runtime.
+#### Follow the below steps.
 Instead of installing docker, install containerd.
 ```bash
     sudo apt-get update && sudo apt-get install -y containerd
