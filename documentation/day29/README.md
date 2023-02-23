@@ -1,1 +1,0 @@
-# Git introduction, setting up repository
