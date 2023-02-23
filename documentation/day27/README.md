@@ -1,1 +1,0 @@
-Docker registry, Setting up Docker registry, adding registry gui
