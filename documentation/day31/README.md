@@ -1,1 +1,0 @@
-# Jenkins introduction, CI with Jenkins
