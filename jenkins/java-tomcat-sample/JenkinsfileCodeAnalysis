@@ -42,7 +42,7 @@ pipeline {
                 scannerHome = tool 'sonar4.7'
             }
             steps {
-               withSonarQubeEnv('sonar4.7') {
+               withSonarQubeEnv('sonar') {
                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=java-tomcat-sample \
                    -Dsonar.projectName=java-tomcat-sample \
                    -Dsonar.projectVersion=4.0 \
