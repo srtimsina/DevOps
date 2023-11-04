@@ -1,8 +1,8 @@
 pipeline {
 	agent any
 	tools {
-	    maven "MAVEN3"
-	    jdk "OpenJDK11"
+	    maven "maven3"
+	    jdk "OpenJDK17"
 	}
 
 	stages {
@@ -39,10 +39,10 @@ pipeline {
        }
         stage('Sonar Analysis') {
             environment {
-                scannerHome = tool 'sonar4.7'
+                scannerHome = tool 'sonar5.0'
             }
             steps {
-               withSonarQubeEnv('sonar4.7') {
+               withSonarQubeEnv('sonar5.0') {
                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=java-tomcat-sample \
                    -Dsonar.projectName=java-tomcat-sample \
                    -Dsonar.projectVersion=4.0 \
