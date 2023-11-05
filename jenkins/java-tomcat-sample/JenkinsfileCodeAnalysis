@@ -8,7 +8,7 @@ pipeline {
 	stages {
 	    stage('Fetch code') {
             steps {
-               git branch: 'master', url: 'https://github.com/srtimsina/DevOps.git'
+               git branch: 'sonar', url: 'https://github.com/srtimsina/DevOps.git'
             }
 
 	    }
@@ -42,7 +42,7 @@ pipeline {
                 scannerHome = tool 'sonar5.0'
             }
             steps {
-               withSonarQubeEnv('sonar5.0') {
+               withSonarQubeEnv('sonar') {
                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=java-tomcat-sample \
                    -Dsonar.projectName=java-tomcat-sample \
                    -Dsonar.projectVersion=4.0 \
@@ -58,7 +58,7 @@ pipeline {
 	                nexusArtifactUploader(
 	                  nexusVersion: 'nexus3',
 	                  protocol: 'http',
-	                  nexusUrl: '172.31.17.177:8081',
+	                  nexusUrl: '172.31.23.117:8081',
 	                  groupId: 'QA',
 	                  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
 	                  repository: 'java-tomcat-sample-repo',
