@@ -5,7 +5,7 @@ pwd
 whoami
 docker ps
 echo $HOME
-cd workspace/tobuilddockerimage/docker/docker-examples
+cd ..
 # Define variables
 APP_NAME="my-app"
 BUILD_NUMBER="$1"
