@@ -6,8 +6,8 @@ whoami
 echo $HOME
 cd tobuilddockerimage/docker/docker-examples
 # Define variables
-APP_NAME="my-app"
-BUILD_NUMBER="$1"
+#APP_NAME="my-app"
+#BUILD_NUMBER="$1"
 
 # Build the Docker image
-docker build -t "$APP_NAME:$BUILD_NUMBER" . -f Dockerfile
+#docker build -t "$APP_NAME:$BUILD_NUMBER" . -f Dockerfile
