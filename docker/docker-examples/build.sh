@@ -4,7 +4,7 @@
 pwd
 whoami
 docker ps
-
+echo $HOME
 # Define variables
 APP_NAME="my-app"
 BUILD_NUMBER="$1"
