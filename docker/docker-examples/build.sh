@@ -3,7 +3,6 @@
 # Print basic information
 pwd
 whoami
-docker ps
 echo $HOME
 cd ..
 # Define variables
