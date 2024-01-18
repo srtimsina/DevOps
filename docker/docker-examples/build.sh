@@ -11,4 +11,5 @@ APP_NAME="my-app"
 BUILD_NUMBER="$1"
 
 # Build the Docker image
-docker build -t "$APP_NAME:$BUILD_NUMBER" . -f Dockerfile
+docker system prune -a --volumes
+docker build --no-cache -t "$APP_NAME:$BUILD_NUMBER" . -f Dockerfile
