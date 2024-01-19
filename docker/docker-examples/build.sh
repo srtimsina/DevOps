@@ -5,7 +5,7 @@ pwd
 whoami
 echo $HOME
 pwd
-#cd docker/docker-examples
+# no need -> cd docker/docker-examples as we are already inside this dir
 # Define variables
 APP_NAME="my-app"
 APP_VERSION="latest"
