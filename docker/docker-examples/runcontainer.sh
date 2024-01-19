@@ -1,7 +1,7 @@
 # integrate below commands directly in add step -> execute shell command . 
 # if you want execute this script directly then run sh runcontainer.sh and if you wish pass environment variable as $BUILD_NUMBER or $BUILD_ID as arg for using to make 
 # image and container name.
-the script.
+#!/bin/bash
 whoami #no need ,just for knowing the user
 docker ps -a
 APP_NAME=my-app
