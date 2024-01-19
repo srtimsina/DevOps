@@ -12,7 +12,7 @@ APP_VERSION="latest"
 
 # cleans up all unused images, containers, networks, and volumes, effectively clearing the cache before build
 #use with caution and only if neccessary
-docker system prune -a --volumes -y
+docker system prune -a --volumes
 
 # Build the Docker image
 # --no-cache flag explicitly instructs Docker to ignore any cached layers and build all layers from the beginning.
