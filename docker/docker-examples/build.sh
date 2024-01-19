@@ -8,6 +8,7 @@ pwd
 # no need -> cd docker/docker-examples as we are already inside this dir
 # Define variables
 APP_NAME="my-app"
+#BUILD_NUMBER=$1 -> currently not used here! 
 APP_VERSION="latest"
 
 # cleans up all unused images, containers, networks, and volumes, effectively clearing the cache before build
