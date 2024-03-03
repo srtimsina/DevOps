@@ -12,3 +12,15 @@ resource "aws_instance" "devops-morning-tf-instance1" {
     Project = "DevOps"
   }
 }
+
+output "PublicIP" {
+   value = aws_instance.devops-morning-tf-instance1.public_ip
+}
+
+output "PrivateIP" {
+   value = aws_instance.devops-morning-tf-instance1.private_ip
+}
+
+output "public_dns" {
+  value = aws_instance.devops-morning-tf-instance1.public_dns
+}
