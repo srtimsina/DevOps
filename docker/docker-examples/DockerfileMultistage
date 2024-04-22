@@ -1,0 +1,15 @@
+# Stage 1: Build stage
+FROM node AS build
+LABEL np.com.techaxis.version=v1.1
+WORKDIR /var/node
+COPY weather-app/ /var/node/
+RUN npm install
+
+# Stage 2: Production stage
+FROM node:alpine AS production
+ENV NODE_ENV="production"
+ENV PORT 3000
+WORKDIR /var/node
+COPY --from=build /var/node /var/node
+EXPOSE $PORT
+CMD ["node", "./bin/www"]
