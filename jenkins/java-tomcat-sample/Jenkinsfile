@@ -3,16 +3,11 @@ pipeline {
     label 'ubuntu-slave'
     }
     stages {
-        stage('UnitTest') {
+        stage('Build Application') {
             steps {
-                echo "Hello, we are learning Jekins pipeline as a code"
-                echo "Running Unitest"
+                sh 'mvn -f jenkins/java-tomcat-sample/pom.xml clean package'
             }
-        }
-        stage('Build') {
-            steps {
-                echo "Building the code"
-            }
+
         }
         stage('DeployStaging') {
             steps {
