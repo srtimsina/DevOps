@@ -1,5 +1,7 @@
 pipeline {
-    agent ubuntu-slave
+    agent {
+    label 'ubuntu-slave'
+    }
     stages {
         stage('UnitTest') {
             steps {
