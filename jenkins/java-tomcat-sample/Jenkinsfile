@@ -29,23 +29,34 @@ pipeline {
                 sh '''
             }
         }
-        stage('Deploy to Stagging Env') {
+        stage('Deploy to QA Env') {
             agent {
                 label 'ubuntu-slave'
             }
             steps {
-                echo "Running app on stagging env"
+                echo "Running app on QA env"
                 sh '''
-                docker stop tomcatInstanceStaging || true
-                docker rm tomcatInstanceStaging || true
-                docker run -itd --name tomcatInstanceStaging -p 8082:8080 localtomcatimg:$BUILD_NUMBER
+                docker stop tomcatInstanceQA || true
+                docker rm tomcatInstanceQA || true
+                docker run -itd --name tomcatInstanceQA -p 8082:8080 localtomcatimg:$BUILD_NUMBER
                 sh '''
             }
         }
-        stage('DeployProd') {
-            steps {
-                echo "Deploying to prod env"
+        stage('Deploy Staging Environment') {
+            agent {
+                label 'ubuntu-slave'
             }
-        }    
+            steps {
+                timeout(time:2, unit:'MINUTES'){
+                input message:'Approve STAGING Deployment?'
+                }
+                echo "Running app on Staging env"
+                sh '''
+                docker stop tomcatInstanceStagging || true
+                docker rm tomcatInstanceStagging || true
+                docker run -itd --name tomcatInstanceStagging -p 8083:8080 localtomcatimg:$BUILD_NUMBER
+                '''
+            }
+        }
     }
 }
