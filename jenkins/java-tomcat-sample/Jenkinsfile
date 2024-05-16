@@ -52,8 +52,8 @@ pipeline {
                 }
                 echo "Running app on Staging env"
                 sh '''
-                docker stop tomcatInstanceStagging || true
-                docker rm tomcatInstanceStagging || true
+                docker stop tomcatInstanceStagging
+                docker rm tomcatInstanceStagging
                 docker run -itd --name tomcatInstanceStagging -p 8083:8080 localtomcatimg:$BUILD_NUMBER
                 '''
             }
@@ -76,6 +76,18 @@ and verify the details.
 
 Regards,
 DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'devopsuryaraj@gmail.com'
+        }
+failure {
+            mail bcc: '', body: """Hi Team,
+            
+Build #$BUILD_NUMBER is unsuccessful, please go through the url
+
+$BUILD_URL
+
+and verify the details.
+
+Regards,
+DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'devopsuryaraj@gmail.com'
         }
     }
 }
