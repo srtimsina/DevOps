@@ -52,6 +52,8 @@ pipeline {
                 }
                 echo "Running app on Staging env"
                 sh '''
+                docker stop tomcatInstanceStagging || true
+                docker rm tomcatInstanceStagging || true
                 docker run -itd --name tomcatInstanceStagging -p 8083:8080 localtomcatimg:$BUILD_NUMBER
                 '''
             }
