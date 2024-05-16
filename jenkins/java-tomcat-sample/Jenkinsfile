@@ -65,5 +65,17 @@ pipeline {
             subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is running",
             body: "Please go to ${BUILD_URL} and verify the build"
         }
+success {
+            mail bcc: '', body: """Hi Team,
+
+Build #$BUILD_NUMBER is successful, please go through the url
+
+$BUILD_URL
+
+and verify the details.
+
+Regards,
+DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'devopsuryaraj@gmail.com'
+        }
     }
 }
