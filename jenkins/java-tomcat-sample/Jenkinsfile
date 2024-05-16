@@ -29,11 +29,17 @@ pipeline {
                 sh '''
             }
         }
-        stage('DeployStaging') {
-            steps {
-                echo "Deploying to staging env"
+        stage('Deploy to Stagging Env') {
+            agent {
+                label 'ubuntu-slave'
             }
-        }  
+            steps {
+                echo "Running app on stagging env"
+                sh '''
+                docker run -itd --name tomcatInstanceStaging -p 8082:8080 localtomcatimg:$BUILD_NUMBER
+                sh '''
+            }
+        }
         stage('DeployProd') {
             steps {
                 echo "Deploying to prod env"
