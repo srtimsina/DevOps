@@ -4,7 +4,7 @@ pipeline {
     }
     stages {
         stage('Build Application') {
-            {
+           agent {
              label 'ubuntu-slave'
             }
             steps {
@@ -18,7 +18,7 @@ pipeline {
             }
         }
         stage('Create Tomcat Image') {
-            {
+           agent {
             label 'ubuntu-slave'
             }
             steps {
@@ -33,7 +33,7 @@ pipeline {
             }
         }
         stage('Deploy to Stagging Env') {
-            {
+           agent {
             label 'ubuntu-slave'
             }
             steps {
@@ -46,7 +46,7 @@ pipeline {
             }
         }
         stage('Deploy Production Environment') {
-            {
+           agent {
             label 'ubuntu-slave'
             }
             steps {
