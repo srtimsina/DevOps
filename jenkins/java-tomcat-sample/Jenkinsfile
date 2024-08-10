@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'ubuntu-slave'
+        label 'Built-In-Node'
     }
     stages {
         stage('Build Application') {
@@ -33,9 +33,6 @@ pipeline {
             }
         }
         stage('Deploy to Stagging Env') {
-           agent {
-            label 'ubuntu-slave'
-            }
             steps {
                 echo "Running app on stagging env"
                 sh '''
@@ -46,9 +43,6 @@ pipeline {
             }
         }
         stage('Deploy Production Environment') {
-           agent {
-            label 'ubuntu-slave'
-            }
             steps {
                 timeout(time:1, unit:'DAYS'){
                 input message:'Approve PRODUCTION Deployment?'
