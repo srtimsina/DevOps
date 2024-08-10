@@ -61,7 +61,7 @@ pipeline {
     }
     post { 
         always { 
-            mail to: 'devopsuryaraj@gmail.com',
+            mail to: 'hardygames777@gmail.com',
             subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
             body: "Please go to ${BUILD_URL} and verify the build"
         }
@@ -75,7 +75,7 @@ $BUILD_URL
 and verify the details.
 
 Regards,
-DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'devopsuryaraj@gmail.com'
+DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'hardygames777@gmail.com'
         }
         failure {
             mail bcc: '', body: """Hi Team,
@@ -87,7 +87,7 @@ $BUILD_URL
 and verify the details.
 
 Regards,
-DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'devopsuryaraj@gmail.com'
+DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'hardygames777@gmail.com'
         }
     }
 }
