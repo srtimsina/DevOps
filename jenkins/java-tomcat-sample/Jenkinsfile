@@ -46,6 +46,9 @@ pipeline {
             }
         }
         stage('Deploy Production Environment') {
+            agent {
+                label 'ubuntu-slave'
+            }
             steps {
                 timeout(time:1, unit:'DAYS'){
                 input message:'Approve PRODUCTION Deployment?'
