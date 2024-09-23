@@ -137,7 +137,7 @@ kubeadm token create --print-join-command
 ```
 
 
-### To setup docker containerd as the container runtime.
+### To setup containerd as the container runtime.
 #### Follow the below steps.
 Instead of installing docker, install containerd.
 ```bash
