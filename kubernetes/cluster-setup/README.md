@@ -1,19 +1,19 @@
 # Steps to setup kubernetes cluster
 ### Make sure, overlay network and bridge netfilter turned on
 ```bash
-    cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-    overlay
-    br_netfilter
-    EOF
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
 
-    sudo modprobe overlay 
-    sudo modprobe br_netfilter
+sudo modprobe overlay 
+sudo modprobe br_netfilter
 ```
 ### Make sure swap is turned off
 
 ### Immediately turn off swap - until reboot
 ```bash
-  sudo swapoff -a 
+sudo swapoff -a 
 ```
 ### Turn off swap after restart
 ```bash
