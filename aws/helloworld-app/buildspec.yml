@@ -9,7 +9,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Compiling the C++ code...
-      - g++ hello.cpp -o hello.out
+      - g++ aws/helloworld-app/hello.cpp -o hello.out
   post_build:
     commands:
       - echo Build completed on `date`
