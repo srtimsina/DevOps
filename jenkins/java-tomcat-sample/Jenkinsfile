@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'builtinNode'
+        label 'myslaveNode'
     }
     stages {
         stage('Build Application') {
@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Create Tomcat Image') {
             agent {
-                label 'testnode'
+                label 'myslaveNode'
             }
             steps {
                 copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: env.JOB_NAME, selector: specific(env.BUILD_NUMBER)
@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Deploy to Stagging Env') {
             agent {
-                label 'testnode'
+                label 'myslaveNode'
             }
             steps {
                 echo "Running app on stagging env"
