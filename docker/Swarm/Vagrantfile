@@ -9,13 +9,13 @@ curl -sSL https://get.docker.com/ | sh
 sudo usermod -aG docker vagrant
 SCRIPT
 
-BOX_NAME = "ubuntu/focal64"
-MEMORY = "512"
+BOX_NAME = "generic/ubuntu2204"
+MEMORY = "1024"
 MANAGERS = 1
 MANAGER_IP = "192.168.56.1"
-WORKERS = 2
+WORKERS = 1
 WORKER_IP = "192.168.56.10"
-CPUS = 2
+CPUS = 1
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
