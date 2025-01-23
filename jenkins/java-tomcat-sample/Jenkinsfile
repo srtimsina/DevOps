@@ -1,9 +1,12 @@
 pipeline {
     agent {
-        label 'builtinNode'
+        label 'Built-In-Node'
     }
     stages {
         stage('Build Application') {
+           agent {
+             label 'ubuntu-slave'
+            }
             steps {
                 sh 'mvn -f jenkins/java-tomcat-sample/pom.xml clean package'
             }
@@ -15,8 +18,8 @@ pipeline {
             }
         }
         stage('Create Tomcat Image') {
-            agent {
-                label 'testnode'
+           agent {
+                label 'ubuntu-slave'
             }
             steps {
                 copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: env.JOB_NAME, selector: specific(env.BUILD_NUMBER)
@@ -31,7 +34,7 @@ pipeline {
         }
         stage('Deploy to Stagging Env') {
             agent {
-                label 'testnode'
+                label 'ubuntu-slave'
             }
             steps {
                 echo "Running app on stagging env"
@@ -44,7 +47,7 @@ pipeline {
         }
         stage('Deploy Production Environment') {
             agent {
-                label 'testnode'
+                label 'ubuntu-slave'
             }
             steps {
                 timeout(time:1, unit:'DAYS'){
@@ -61,7 +64,7 @@ pipeline {
     }
     post { 
         always { 
-            mail to: 'devopsuryaraj@gmail.com',
+            mail to: 'hardygames777@gmail.com',
             subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
             body: "Please go to ${BUILD_URL} and verify the build"
         }
@@ -75,7 +78,7 @@ $BUILD_URL
 and verify the details.
 
 Regards,
-DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'devopsuryaraj@gmail.com'
+DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'hardygames777@gmail.com'
         }
         failure {
             mail bcc: '', body: """Hi Team,
@@ -87,7 +90,7 @@ $BUILD_URL
 and verify the details.
 
 Regards,
-DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'devopsuryaraj@gmail.com'
+DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'hardygames777@gmail.com'
         }
     }
 }
