@@ -6,7 +6,7 @@ sudo useradd --no-create-home --shell /bin/false prometheus
 sudo mkdir /etc/prometheus
 sudo mkdir /var/lib/prometheus
 sudo chown prometheus:prometheus /etc/prometheus
-sudo chown prometheus:/prometheus /var/lib/prometheus
+sudo chown prometheus:prometheus /var/lib/prometheus
 wget https://github.com/prometheus/prometheus/releases/download/"${PROMETHEUS_VERSION}"/"${PROMETHEUS_FILE}".tar.gz
 tar xvf "${PROMETHEUS_FILE}".tar.gz
 cd "${PROMETHEUS_FILE}"
