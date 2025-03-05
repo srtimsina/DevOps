@@ -11,14 +11,18 @@ echo "The aruments passed are $@"
 echo "The number of argument passed is $#"
 # Print the second place argument
 echo "The 2nd place arguemtn is $2"
-# Print the number of arguments passed."
-echo "The number of arugment is $$"
+# Print the process ID of the current shell."
+echo "The process ID of the current shell is $$"
 # Print the hostname of the system
 echo "The hostname of the machine is $HOSTNAME"
 # Print the name of the user currently logging in.
 echo "The current user is $USER"
 # Print the line number of the script
 echo "The line number is $LINENO"
+# Print the current working directory
+echo "The current working directory is $PWD"
+# Print the Shell of the current user
+echo "The shell of the current user is $SHELL"
 # Sleep 5 seconds
 sleep 5s
 # Print the time taken to run scripts till now.
